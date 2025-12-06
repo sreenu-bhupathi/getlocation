@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Share Location</title>
+</head>
+<body>
+
+<h2>Getting your location…</h2>
+<p id="status">Please allow location access.</p>
+
+<script>
+function getLocation() {
+    if (!navigator.geolocation) {
+        document.getElementById("status").textContent = "Geolocation not supported.";
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error);
+}
+
+function success(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    document.getElementById("status").innerHTML =
+        "Location detected.<br>Opening WhatsApp…";
+
+    // Your WhatsApp number
+    const phone = "+917780554214";
+
+    // Pre-filled message with coordinates
+    const message = `User Location:%0ALatitude: ${lat}%0ALongitude: ${lon}%0Ahttps://www.google.com/maps?q=${lat},${lon}`;
+
+    // WhatsApp API link
+    const waLink = `https://wa.me/${phone.replace('+', '')}?text=${message}`;
+
+    // Redirect to WhatsApp
+    window.location.href = waLink;
+}
+
+function error() {
+    document.getElementById("status").textContent =
+        "Unable to retrieve location. Please enable GPS.";
+}
+
+getLocation();
+</script>
+
+</body>
+</html>
